@@ -8,6 +8,7 @@ class SalesClass:
         self.root=root
         self.root.geometry("1300x650+205+150")
         self.root.config(bg="white")
+        self.root.resizable(False, False)
         self.root.title("Inventory Management System | Developed by Our Group")
         self.root.focus_force()
 
@@ -49,7 +50,7 @@ class SalesClass:
 
 
         scrolly2=Scrollbar(bill_frame,orient=VERTICAL)
-        self.bill_list=Listbox(bill_frame,font=("times new roman",15),bg="lightyellow",yscrollcommand=scrolly2)
+        self.bill_list=Listbox(bill_frame,bg="lightyellow",yscrollcommand=scrolly2)
         scrolly2.pack(side=RIGHT,fill=Y)
         scrolly2.config(command=self.bill_list.yview)
         self.bill_list.pack(fill=BOTH,expand=1)

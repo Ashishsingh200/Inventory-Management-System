@@ -7,6 +7,7 @@ class CategoryClass:
         self.root=root
         self.root.geometry("1300x650+205+150")
         self.root.config(bg="white")
+        self.root.resizable(False, False)
         self.root.title("Inventory Management System | Developed by Our Group")
         self.root.focus_force()
         #--------variables

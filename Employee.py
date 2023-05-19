@@ -7,6 +7,7 @@ class EmployeeClass:
         self.root.geometry("1300x650+205+150")
         self.root.config(bg="white")
         self.root.title("Inventory Management System | Developed by Our Group")
+        self.root.resizable(False, False)
         self.root.focus_force()
         #-------All Variables
         self.var_searchby=StringVar()

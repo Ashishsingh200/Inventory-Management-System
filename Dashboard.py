@@ -4,6 +4,11 @@ from Supplier import SupplierClass
 from Category import CategoryClass
 from Products import ProductClass
 from Sales    import SalesClass
+from analysis import AnalysisClass
+import time
+import sqlite3
+from tkinter import messagebox
+import os
 class IMS:
     def __init__(self,root):
         self.root=root
@@ -18,7 +23,7 @@ class IMS:
         title=Label(self.root,text="Inventory Management System",image=self.icon_title,compound=LEFT,font=("Famtasy",35,"bold"),fg="white",bg="blue",anchor="w",padx=20).place(x=0,y=0,height=70,relwidth=1)
 
         #-----Logout button
-        btn_logout=Button(self.root,text="Logout",font=("times new roman",15),cursor="hand2").place(x=1350,y=22,height=35)
+        btn_logout=Button(self.root,command=self.logout,text="Logout",font=("times new roman",15),cursor="hand2").place(x=1350,y=22,height=35)
         
         #----Making Date As well as time
         self.lbl_clock=Label(self.root,text="Welcome to our project inventory management system\t\tDate:DD-MM-YYYY\t\tTime: HH:MM:SS",font=("times new roman",15),bg="grey",fg="black")
@@ -46,8 +51,8 @@ class IMS:
         btn_categories=Button(left_menu,text="Categories",image=self.side_icon,padx=5,compound=LEFT,command=self.Category,anchor="w",font=("times new roman",20,"bold"),bg="white",bd=2,cursor="hand2").pack(side=TOP,fill=X)
         btn_products=Button(left_menu,text="Products",image=self.side_icon,padx=5,compound=LEFT,command=self.Product,anchor="w",font=("times new roman",20,"bold"),bg="white",bd=2,cursor="hand2").pack(side=TOP,fill=X)
         btn_sales=Button(left_menu,text="Sales",image=self.side_icon,padx=5,compound=LEFT,command=self.Sales,anchor="w",font=("times new roman",20,"bold"),bg="white",bd=2,cursor="hand2").pack(side=TOP,fill=X)
-        btn_analysis=Button(left_menu,text="Analysis",image=self.side_icon,padx=5,compound=LEFT,anchor="w",font=("times new roman",20,"bold"),bg="white",bd=2,cursor="hand2").pack(side=TOP,fill=X)
-        btn_exit=Button(left_menu,text="Exit",image=self.side_icon,padx=5,compound=LEFT,anchor="w",font=("times new roman",20,"bold"),bg="white",bd=2,cursor="hand2").pack(side=TOP,fill=X)
+        btn_analysis=Button(left_menu,text="Analysis",image=self.side_icon,padx=5,compound=LEFT,command=self.analysis,anchor="w",font=("times new roman",20,"bold"),bg="white",bd=2,cursor="hand2").pack(side=TOP,fill=X)
+        btn_exit=Button(left_menu,text="Exit",image=self.side_icon,padx=5,compound=LEFT,command=self.logout,anchor="w",font=("times new roman",20,"bold"),bg="white",bd=2,cursor="hand2").pack(side=TOP,fill=X)
 #--contents
         self.lbl_employee=Label(self.root,text="Total Employee\n [0]",font=("times new roman",20),bd=5,relief=RIDGE,bg="#33bbf9")
         self.lbl_employee.place(x=260,y=190,height=150,width=300)
@@ -66,7 +71,7 @@ class IMS:
 #----Footer
         lbl_footer=Label(root,text="This is a dummy project made by Ashish , Kuntak , Shubhankar , Nikita",font=("times new roman",15),bg="grey",fg="black").pack(side=BOTTOM,fill=X)
 
-
+        self.update_content()
 #=========================================
     def Employee(self):
         self.new_win=Toplevel(self.root)
@@ -87,6 +92,46 @@ class IMS:
     def Sales(self):
         self.new_win=Toplevel(self.root)
         self.new_obj=SalesClass(self.new_win)
+
+    def analysis(self):
+        self.new_win=Toplevel(self.root)
+        self.new_obj=AnalysisClass(self.new_win)
+    
+    def update_content(self):
+        con=sqlite3.connect(database='ims.db')
+        cur=con.cursor()
+        try:
+            cur.execute("select * from product")
+            product=cur.fetchall()
+            self.lbl_products.config(text=f"Total Products\n[{str(len(product))}]")
+
+            cur.execute("select * from employee")
+            employee=cur.fetchall()
+            self.lbl_employee.config(text=f"Total Employee\n[{str(len(employee))}]")
+
+            cur.execute("select * from supplier")
+            supplier=cur.fetchall()
+            self.lbl_supplier.config(text=f"Total Supplier\n[{str(len(supplier))}]")
+
+
+            cur.execute("select * from categories")
+            categories=cur.fetchall()
+            self.lbl_categories.config(text=f"Total Categories\n[{str(len(categories))}]")
+
+
+            self.lbl_sales.config(text=f"Total Sales\n[{str(len(os.listdir('bill')))}]")
+            
+            Time=time.strftime("%I:%M:%S")
+            date=time.strftime("%d:%m:%Y")
+            self.lbl_clock.config(text=f"Welcome to our project inventory management system\t\tDate: {str(date)}\t\tTime: {str(Time)}")
+            self.lbl_clock.after(100,self.update_content)
+
+        except Exception as ex:
+            messagebox.showerror("Error",f"Error due to :{str(ex)}")
+
+    def logout(self):
+        self.root.destroy()
+        os.system("python login.py")
 
 if __name__=="__main__":
     

@@ -7,6 +7,7 @@ class ProductClass:
         self.root=root
         self.root.geometry("1300x650+205+150")
         self.root.config(bg="white")
+        self.root.resizable(False, False)
         self.root.title("Inventory Management System | Developed by Our Group")
         self.root.focus_force()
 
@@ -70,7 +71,7 @@ class ProductClass:
 
         #--------searchbar
 
-        search_frame=LabelFrame(self.root,text="Search Employee",bg="White",font=("times new roman",12,"bold"))
+        search_frame=LabelFrame(self.root,text="Search Product",bg="White",font=("times new roman",12,"bold"))
         search_frame.place(x=550,y=10,width=700,height=80)
 
         #====options
