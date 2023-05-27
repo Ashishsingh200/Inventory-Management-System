@@ -64,7 +64,7 @@ class IMS:
         self.lbl_products.place(x=260,y=390,height=150,width=300)
         self.lbl_sales=Label(self.root,text="Total Sales\n [0]",font=("times new roman",20),bd=5,relief=RIDGE,bg="#607d8b")
         self.lbl_sales.place(x=660,y=390,height=150,width=300)
-        self.lbl_analysis=Label(self.root,text="Analytics\n [0]",font=("times new roman",20),bd=5,relief=RIDGE,bg="#ffc107")
+        self.lbl_analysis=Label(self.root,text="Analytics",font=("times new roman",20),bd=5,relief=RIDGE,bg="#ffc107")
         self.lbl_analysis.place(x=1060,y=390,height=150,width=300)
     
 

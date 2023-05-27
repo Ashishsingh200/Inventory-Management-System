@@ -60,40 +60,39 @@ class AnalysisClass:
 
         myBtn = Button(self.root,text='?',bg="white",fg="#00759E",bd=0,activebackground="white",activeforeground="#00759E")
         myBtn.place(x=299,y=70)
-        myTip = Hovertip(myBtn,'This is \na multiline tooltip.')
+        myTip = Hovertip(myBtn,'A pie chart is a circular graphical representation of data where the size of each slice corresponds to the proportion or percentage it represents.')
 
         self.im2_label=Button(self.root,text="Bar Chart",command=self.plot_bar,font=("times new roman",15,"bold"),bg="white",fg="#00759E",bd=0,activebackground="white",activeforeground="#00759E",cursor="hand2")
         self.im2_label.place(x=25,y=583)
 
         myBtn2 = Button(self.root,text='?',bg="white",fg="#00759E",bd=0,activebackground="white",activeforeground="#00759E")
         myBtn2.place(x=299,y=355)
-        myTip2 = Hovertip(myBtn2,'This is \na multiline tooltip.')
+        myTip2 = Hovertip(myBtn2,'A bar chart is a graphical representation of data using rectangular bars, where the length of each bar corresponds to the value it represents.')
 
         self.im3_label=Button(self.root,text="Area Chart",command=self.plot_area,font=("times new roman",15,"bold"),bg="white",fg="#00759E",bd=0,activebackground="white",activeforeground="#00759E",cursor="hand2")
         self.im3_label.place(x=470,y=168)
 
         myBtn3 = Button(self.root,text='?',bg="white",fg="#00759E",bd=0,activebackground="white",activeforeground="#00759E")
         myBtn3.place(x=740,y=168)
-        myTip3 = Hovertip(myBtn3,'This is \na multiline tooltip.')
+        myTip3 = Hovertip(myBtn3,'An area chart is a graphical representation of data that uses a series of filled areas to display the cumulative magnitude or value of multiple data points over time or categories.')
 
         self.im4_label=Button(self.root,text="Count Chart",command=self.plot_scatter,font=("times new roman",15,"bold"),bg="white",fg="#00759E",bd=0,activebackground="white",activeforeground="#00759E",cursor="hand2")
         self.im4_label.place(x=905,y=73)
 
         myBtn4 = Button(self.root,text='?',bg="white",fg="#00759E",bd=0,activebackground="white",activeforeground="#00759E")
         myBtn4.place(x=1175,y=70)
-        myTip4 = Hovertip(myBtn4,'This is \na multiline tooltip.')
+        myTip4 = Hovertip(myBtn4,'A count chart is a graphical representation of data that displays the frequency or count of different categories or data points using bars or columns.')
 
         self.im5_label=Button(self.root,text="Line Chart",command=self.plot_line,font=("times new roman",15,"bold"),bg="white",fg="#00759E",bd=0,activebackground="white",activeforeground="#00759E",cursor="hand2")
         self.im5_label.place(x=905,y=585)
 
         myBtn5 = Button(self.root,text='?',bg="white",fg="#00759E",bd=0,activebackground="white",activeforeground="#00759E")
         myBtn5.place(x=1175,y=355)
-        myTip5 = Hovertip(myBtn5,'This is \na multiline tooltip.')
+        myTip5 = Hovertip(myBtn5,'A line chart is a graphical representation of data that uses connected data points with straight lines to show the trend or change in values over time or any other continuous variable.')
 
 
 
-    def plot_bar(delf):
-
+    def plot_bar(self):
         con=sqlite3.connect(database='ims.db')
         cur=con.cursor()
         cur.execute("select Category,Supplier,name,price,qty,status from product")
@@ -109,22 +108,23 @@ class AnalysisClass:
                 Category.append(row[0])
                 Supplier.append(row[1])
                 name.append(row[2])
-                price.append(row[3])
+                price.append(int(row[3]))
                 qty.append(row[4])
                 status.append(row[5])
             #print(Category) print(Supplier)print(name)print(price)print(qty)print(status)
-            #sns.barplot(x=name,y=qty)
+            sns.barplot(x=name,y=price)
 
-            plt.bar(name,price)
+            #plt.bar(name,price)
             #plt.ylim(0, 5)
             plt.xlabel("Name of product")
             plt.ylabel("Price of product")
             
             plt.show()
+            plt.close()
         except Exception as ex:
             messagebox.showerror("Error",f"Error due to :{str(ex)}")
 
-    def plot_pie(delf):
+    def plot_pie(self):
 
         con=sqlite3.connect(database='ims.db')
         cur=con.cursor()
@@ -152,11 +152,12 @@ class AnalysisClass:
             plt.title("Quantity Pie Chart")
             
             plt.show()
+            plt.close()
         except Exception as ex:
             messagebox.showerror("Error",f"Error due to :{str(ex)}")
 
     
-    def plot_area(delf):
+    def plot_area(self):
 
         con=sqlite3.connect(database='ims.db')
         cur=con.cursor()
@@ -174,22 +175,23 @@ class AnalysisClass:
                 Supplier.append(row[1])
                 name.append(row[2])
                 price.append(row[3])
-                qty.append(row[4])
+                qty.append(int(row[4]))
                 status.append(row[5])
             #print(Category) print(Supplier)print(name)print(price)print(qty)print(status)
 
             plt.fill_between(name,qty)
-            plt.ylim(0,5)
+            #plt.ylim(0,5)
 
             plt.title("Name Vs Price")
             plt.xlabel("Name of product")
-            plt.ylabel("Price of product")
+            plt.ylabel("Quantity of product")
             
             plt.show()
+            plt.close()
         except Exception as ex:
             messagebox.showerror("Error",f"Error due to :{str(ex)}")
 
-    def plot_scatter(delf):
+    def plot_scatter(self):
 
         con=sqlite3.connect(database='ims.db')
         cur=con.cursor()
@@ -216,10 +218,12 @@ class AnalysisClass:
             
             
             plt.show()
+            plt.close()
+            
         except Exception as ex:
             messagebox.showerror("Error",f"Error due to :{str(ex)}")
 
-    def plot_line(delf):
+    def plot_line(self):
 
         con=sqlite3.connect(database='ims.db')
         cur=con.cursor()
@@ -237,16 +241,17 @@ class AnalysisClass:
                 Supplier.append(row[1])
                 name.append(row[2])
                 price.append(row[3])
-                qty.append(row[4])
+                qty.append(int(row[4]))
                 status.append(row[5])
             #print(Category) print(Supplier)print(name)print(price)print(qty)print(status)
 
-            plt.plot(name,price)
+            plt.plot(Supplier,qty)
             #plt.ylim(0, 5)
             plt.xlabel("Name of product")
             plt.ylabel("Price of product")
             
             plt.show()
+            plt.close()
         except Exception as ex:
             messagebox.showerror("Error",f"Error due to :{str(ex)}")
 

@@ -173,8 +173,8 @@ class Login_System:
             messagebox.showerror("Error","Invalid OTP,try again",parent=self.forget_win)
 
     def send_email(self,to_):
-        s=smtplib.SMTP('smtp.gmail.com',587)
-        s.starttls()
+        s=smtplib.SMTP_SSL('smtp.gmail.com',465)
+        #s.starttls() 487
         get_email=email_.email_
         get_pass=email_.pass_
 
